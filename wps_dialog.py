@@ -43,6 +43,8 @@ from .check_ows_lib import CheckOwsLib
 from owslib.wps import WebProcessingService
 from owslib.wps import ComplexDataInput
 
+import zipfile
+
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'wps_dialog_base.ui'))
@@ -346,11 +348,48 @@ class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
                         item.filepath,
                         "layer_name"
                     )
+                elif item.minetype.find('application/zip') > -1:
+                    filetype, filepath, layername = self.open_zip_archive(item)
+                    if filetype == "raster":
+                        layer = QgsRasterLayer(filepath, layername)
+                    elif filetype == "vector":
+                        layer = QgsVectorLayer( filepath, filename,
+                            'file:///' + filepath, layername, "ogr"
+                        )
+                    else:
+                        layer = None
+
                 if layer is not None and layer.isValid():
                     QgsProject.instance().addMapLayer(layer)
                     self.appendLogMessage(self.tr("Output data loaded into the map"))
                 else:
                     self.process_not_known_output(item)
+
+    def open_zip_archive(self, item):
+        """
+        * Unzip given file
+        * Find some raster or vector layers
+        * Return the file name of known type
+        """
+
+        self.textEditLog.append(self.tr("Extracting {}".format(item.filepath)))
+        dirname = os.path.join(
+                os.path.dirname(item.filepath),
+                item.filepath.replace(".zip", "")
+        )
+        os.mkdir(dirname)
+        with zipfile.ZipFile(item.filepath) as myzip:
+            myzip.extractall(path=dirname)
+
+        for f in os.listdir(dirname):
+            n, ext = os.path.splitext(f)
+
+            if ext == ".tif" or ext ==".tiff":
+                return ("raster", os.path.join(dirname, f), n)
+            elif ext == ".shp":
+                return ("vector", os.path.join(dirname, f), n)
+            else:
+                return None, None, None
 
     def on_execute_process_response(self, response):
         process_identifier = self.process_identifier
@@ -360,7 +399,7 @@ class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
             self.setCursor(Qt.ArrowCursor)
         if response.status == 201:
             self.appendLogMessage(self.tr("Process '{}': {}% {}".format(
-                process_identifier, response.data['percent'], response.data['message'], 
+                process_identifier, response.data['percent'], response.data['message'],
             )))
             self.progressBar.setValue(int(response.data['percent']))
         if response.status == 500:

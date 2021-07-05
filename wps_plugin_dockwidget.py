@@ -74,11 +74,13 @@ class WPSWidgetDockWidget(QtWidgets.QDockWidget, FORM_CLASS):
         self.loadServices(self.root)
         self.treeWidgetServices.expandItem(self.root)
         self.treeWidgetServices.customContextMenuRequested.connect(self.menuContextTree)
+        self.root.setExpanded(True)
 
     def appendServiceToTree(self, parent, service_url):
         service = QTreeWidgetItem(parent)
         service.setText(0, service_url)
         service.setData(0, Qt.UserRole, service_url)
+        service.setExpanded(True)
 
     def loadServices(self, parent):
         with open(os.path.join(os.path.dirname(__file__), 'services/list.json')) as f:
