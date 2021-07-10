@@ -343,7 +343,7 @@ class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
                         '/vsizip/' + item.filepath,
                         "layer_name",
                         "ogr")
-                elif item.minetype == 'image/tiff; subtype=geotiff':
+                elif item.minetype.find('image') > -1: #; subtype=geotiff':
                     layer = QgsRasterLayer(
                         item.filepath,
                         "layer_name"

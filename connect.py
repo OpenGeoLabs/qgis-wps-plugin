@@ -3,9 +3,7 @@ import tempfile, os
 from .check_ows_lib import CheckOwsLib
 
 import sys
-sys.path.insert(0, "/home/jachym/src/opengeolabs/OWSLib/")
 import owslib.wps
-print(owslib.wps.__file__)
 from owslib.wps import WebProcessingService
 from owslib.wps import ComplexDataInput
 
@@ -122,16 +120,17 @@ class ExecuteProcess(QThread):
                         filePath, output.mimeType
                     )
                     data_output = execution.getOutput(filePath, output.identifier)
-                    for i in data_output:
-                        #print("download progress: ", i)
-                        responseToReturn = Response()
-                        responseToReturn.status = 201
-                        responseToReturn.data = {
-                            "message": "Downloading ouput {}".format(output.identifier),
-                            "status":  "Download",
-                            "percent": int(i*100)
-                        }
-                        self.statusChanged.emit(responseToReturn)
+                    if data_output is not None:
+                        for i in data_output:
+                            #print("download progress: ", i)
+                            responseToReturn = Response()
+                            responseToReturn.status = 201
+                            responseToReturn.data = {
+                                "message": "Downloading ouput {}".format(output.identifier),
+                                "status":  "Download",
+                                "percent": int(i*100)
+                            }
+                            self.statusChanged.emit(responseToReturn)
                 responseToReturn.status = 200
             except Exception as e:
                 responseToReturn.status = 500
