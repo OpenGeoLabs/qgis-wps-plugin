@@ -104,13 +104,17 @@ class ExecuteProcess(QThread):
                 wps = WebProcessingService(self.url)
                 execution = wps.execute(self.identifier, self.inputs, output=[])
                 self.monitorExecution(execution)
-                for output in execution.processOutputs:
-                    filePath = self.getFilePath(output.mimeType)
-                    responseToReturn.output[output.identifier] = ResponseOutput(
-                        filePath, output.mimeType
-                    )
-                    execution.getOutput(filePath, output.identifier)
-                responseToReturn.status = 200
+                if execution.errors:
+                    responseToReturn.status = 500
+                    responseToReturn.data = execution.errors[0].text
+                else:
+                    for output in execution.processOutputs:
+                        filePath = self.getFilePath(output.mimeType)
+                        responseToReturn.output[output.identifier] = ResponseOutput(
+                            filePath, output.mimeType
+                        )
+                        execution.getOutput(filePath, output.identifier)
+                    responseToReturn.status = 200
             except Exception as e:
                 responseToReturn.status = 500
                 responseToReturn.data = str(e)

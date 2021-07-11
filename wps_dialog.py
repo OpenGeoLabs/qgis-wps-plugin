@@ -24,7 +24,6 @@
 """
 
 import os
-import webbrowser
 
 from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
@@ -36,18 +35,18 @@ from qgis.PyQt.QtCore import *
 from qgis.PyQt.QtWidgets import *
 from qgis.gui import *
 
-import importlib, inspect
+import importlib
 
 from .connect import *
-from .check_ows_lib import CheckOwsLib
-from owslib.wps import WebProcessingService
 from owslib.wps import ComplexDataInput
 
-# This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
+# This loads your .ui file so that PyQt can populate your plugin with the
+# elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'wps_dialog_base.ui'))
 
 DATE_TIME_KEYWORDS = ['date', 'datum']
+
 
 class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
     def __init__(self, iface, parent=None):
@@ -66,7 +65,10 @@ class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
         self.processes = []
 
     def show_process_description(self, index):
-        self.textEditProcessDescription.setText("[" + self.processes[index].identifier + "]: " + self.processes[index].abstract)
+        self.textEditProcessDescription.setText(
+            "[" + self.processes[index].identifier + "]: " +
+            self.processes[index].abstract
+        )
 
     def process_selected(self):
         current_index = self.comboBoxProcesses.currentIndex()
@@ -82,7 +84,9 @@ class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
     def set_map_layer_cmb_box_connect(self):
         for param, widget in self.input_items.items():
             if isinstance(widget, QgsMapLayerComboBox):
-                widget.currentIndexChanged.connect(self.set_layer_to_qgs_field_combo_box)
+                widget.currentIndexChanged.connect(
+                    self.set_layer_to_qgs_field_combo_box
+                )
 
     def set_layer_to_qgs_field_combo_box(self):
         # TODO not generic - only last items will be connected
@@ -102,7 +106,11 @@ class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
                 return True
         return False
 
-    def get_input(self, identifier, title, data_type, default_value, min_occurs):
+    def get_input(
+            self, identifier, title,
+            data_type, default_value,
+            min_occurs
+    ):
         # TODO check types
         input_item = None
         if data_type == 'ComplexData':
@@ -118,7 +126,9 @@ class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
                     input_item.setText('')
                 else:
                     input_item.setText(str(default_value))
-        hbox_layout, label, label_id = self.get_input_item_container(identifier, input_item, min_occurs, title)
+        hbox_layout, label, label_id = self.get_input_item_container(
+            identifier, input_item, min_occurs, title
+        )
         # TODO check if there is not a better way
         self.input_items[str(identifier)] = input_item
         self.input_items_all.append(input_item)
@@ -126,7 +136,9 @@ class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
         self.input_items_all.append(label_id)
         return hbox_layout
 
-    def get_input_item_container(self, identifier, input_item, min_occurs, title):
+    def get_input_item_container(
+        self, identifier, input_item, min_occurs, title
+    ):
         hbox_layout = QHBoxLayout(self.tabInputs)
         vbox_layout = QVBoxLayout(self.tabInputs)
         label_id = QLabel(self.tabInputs)
@@ -365,8 +377,9 @@ class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
             self.progressBar.setValue(int(response.data['percent']))
         if response.status == 500:
             self.appendLogMessage(self.tr("Process {} failed".format(process_identifier)))
-            self.process_output(response)
+            #self.process_output(response)
             self.setCursor(Qt.ArrowCursor)
+            self.iface.messageBar().pushMessage("Error: {}".format(response.data), "", level=Qgis.Critical)
             QMessageBox.information(None, self.tr("ERROR:"),
                                     self.tr("Error executing process {}".format(process_identifier)))
             self.appendLogMessage(self.tr("Error executing process {}".format(process_identifier)))
