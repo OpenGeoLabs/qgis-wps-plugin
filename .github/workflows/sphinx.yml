@@ -4,9 +4,10 @@ jobs:
   build:
     name: Push Sphinx Pages
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./help
     steps:
     - uses: seanzhengw/sphinx-pages@master
-      working-directory: ./help
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         create_readme: true
