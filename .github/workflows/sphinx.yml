@@ -2,7 +2,7 @@ name: Pages
 on:
   push:
     branches:
-    - pages
+    - master
 jobs:
   build:
     runs-on: ubuntu-latest
