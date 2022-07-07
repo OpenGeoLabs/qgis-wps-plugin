@@ -1,0 +1,221 @@
+
+
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>QGIS Web Processing Service Client &#8212; QGIS WPS Plugin 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="nav-item nav-item-0"><a href="#">QGIS WPS Plugin 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">QGIS Web Processing Service Client</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="qgis-web-processing-service-client">
+<h1>QGIS Web Processing Service Client<a class="headerlink" href="#qgis-web-processing-service-client" title="Permalink to this heading">¶</a></h1>
+<p>This plugin provides a basic implementation of OGC <a class="reference external" href="https://www.ogc.org/standards/wps">Web Processing
+Service</a> (WPS) client for QGIS Desktop
+environment. It is based on <a class="reference external" href="https://geopython.github.io/OWSLib/">OWSLib</a> and allows to run all three
+requests on WPS:</p>
+<ul class="simple">
+<li><p>GetCapabilities</p></li>
+<li><p>DescribeProcess</p></li>
+<li><p>Execute</p></li>
+</ul>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<p>Plugin is accessible from Plugins Toolbar:</p>
+<img alt="_images/icon.png" src="_images/icon.png" />
+<p>Plugin is implemented as dockable widget for listing WPS services and
+processes and a standalone dialog for executing a WPS process.</p>
+<img alt="_images/widget.png" src="_images/widget.png" />
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h2>
+<p>The plugin allows to add new services, list processes for the selected
+service and open dialog to run the process.</p>
+<p>To list processes just click by left mouse button on service from the list.</p>
+<img alt="_images/list_processes.png" src="_images/list_processes.png" />
+<p>To show process description just click on the process by left button of the mouse.</p>
+<img alt="_images/describe_process.png" src="_images/describe_process.png" />
+<p>To run process you can use three possible ways:</p>
+<ul class="simple">
+<li><p>Click on button <code class="docutils literal notranslate"><span class="pre">Load</span> <span class="pre">Process</span></code></p></li>
+<li><p>Double click by left mouse button on process in the list</p></li>
+<li><p>Right mouse button click on process in the list and <code class="docutils literal notranslate"><span class="pre">Execute</span></code> button
+from contextual menu</p></li>
+</ul>
+<img alt="_images/load.png" src="_images/load.png" />
+<p>To add service use right mouse button click on <code class="docutils literal notranslate"><span class="pre">WPS</span> <span class="pre">Services</span></code>:</p>
+<img alt="_images/new_service.png" src="_images/new_service.png" />
+<p>Then you enter URL of the service in dialog:</p>
+<img alt="_images/new_service_url.png" src="_images/new_service_url.png" />
+<section id="execute-wps-process">
+<h3>Execute WPS process<a class="headerlink" href="#execute-wps-process" title="Permalink to this heading">¶</a></h3>
+<p>Process execution is done on the dialog where you can specify Inputs
+and Outputs. The inputs are usually some data layers and
+parameters. The outputs is usually some data layer or table.</p>
+<p>The output should be automatically loaded into map or if the result
+needs some postprocessing it may be postprocessed by a script stored
+in the data structure of the plugin. There are two sample
+postprocessing scripts already distributed with the plugin.</p>
+<p>If the results can not be loaded into map its content is shown in the
+log text area of the dialog.</p>
+<img alt="_images/inputs.png" src="_images/inputs.png" />
+<p>WPS process presented on image above calculates amount of rain to
+produce 2 to 100 year flood. The inputs are water basins in a form of
+polygon layer, list of floods periods and length of the rain in
+minutes.</p>
+<p>The output is layer where for each polygon the amount of rain is
+calculated.</p>
+<p>Following images show how the process is executed. The process
+execution is done by <code class="docutils literal notranslate"><span class="pre">Execute</span> <span class="pre">Process</span></code> button. Then the user can see
+progress in progress bar and log text area.</p>
+<img alt="_images/execute1.png" src="_images/execute1.png" />
+<img alt="_images/execute2.png" src="_images/execute2.png" />
+<p>When the process is finished a new layer is loaded into map. You can
+see classified result on the following image with table where are
+results of the calculation for all selected periods.</p>
+<img alt="_images/result.png" src="_images/result.png" />
+</section>
+<section id="handling-output">
+<h3>Handling output<a class="headerlink" href="#handling-output" title="Permalink to this heading">¶</a></h3>
+<p>The output can be loaded into map or postprocessed. In a case when
+there is postprocessing script as a part of plugin the dialog allows
+to select <code class="docutils literal notranslate"><span class="pre">Postprocessing</span></code> option on <code class="docutils literal notranslate"><span class="pre">Output</span></code> tab of the dialog.</p>
+<img alt="_images/output.png" src="_images/output.png" />
+<p>Postprocessing scripts are stored in <code class="docutils literal notranslate"><span class="pre">postprocessing</span></code> directory of
+the plugin.  For each service has to be created directory that is
+named according to URL of the service.</p>
+<p>The naming convention is as follow:</p>
+<p>URL: <a class="reference external" href="https://rain1.fsv.cvut.cz/services/wps">https://rain1.fsv.cvut.cz/services/wps</a></p>
+<p>Directory name: <code class="docutils literal notranslate"><span class="pre">rain1_fsv_cvut_cz_services_wps</span></code></p>
+<p>So dots and slashes are changed into underscore character and
+<code class="docutils literal notranslate"><span class="pre">https://</span></code> is removed.</p>
+<p>The script is then named according to the identifier of the process.</p>
+<p>Following script loads result in a form of CSV and joins it with input
+layer.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">qgis.utils</span> <span class="kn">import</span> <span class="n">iface</span>
+<span class="kn">from</span> <span class="nn">qgis.core</span> <span class="kn">import</span> <span class="n">QgsVectorLayer</span><span class="p">,</span> <span class="n">QgsProject</span>
+<span class="kn">from</span> <span class="nn">qgis.gui</span> <span class="kn">import</span> <span class="n">QgsMapLayerComboBox</span><span class="p">,</span> <span class="n">QgsFieldComboBox</span>
+
+<span class="kn">import</span> <span class="nn">processing</span>
+
+<span class="k">class</span> <span class="nc">wps_postprocessing</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">postprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="n">process_identifier</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">csv_uri</span> <span class="o">=</span> <span class="s1">&#39;file:///&#39;</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="n">output</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">filepath</span> <span class="o">+</span> <span class="s1">&#39;?delimiter=,&#39;</span>
+            <span class="n">csv</span> <span class="o">=</span> <span class="n">QgsVectorLayer</span><span class="p">(</span><span class="n">csv_uri</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> output&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">process_identifier</span><span class="p">),</span> <span class="s1">&#39;delimitedtext&#39;</span><span class="p">)</span>
+            <span class="n">QgsProject</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">addMapLayer</span><span class="p">(</span><span class="n">csv</span><span class="p">)</span>
+            <span class="n">layer</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">layerField</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">csvField</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">widget</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">QgsMapLayerComboBox</span><span class="p">):</span>
+                    <span class="n">layer</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">currentLayer</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">QgsFieldComboBox</span><span class="p">):</span>
+                    <span class="n">layerField</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">currentField</span><span class="p">()</span>
+            <span class="n">csvField</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">fields</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">layer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">layerField</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">csv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">csvField</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;DISCARD_NONMATCHING&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;FIELD&#39;</span> <span class="p">:</span> <span class="n">layerField</span><span class="p">,</span> <span class="s1">&#39;FIELDS_TO_COPY&#39;</span> <span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;FIELD_2&#39;</span> <span class="p">:</span> <span class="n">csvField</span><span class="p">,</span> <span class="s1">&#39;INPUT&#39;</span> <span class="p">:</span> <span class="n">layer</span><span class="o">.</span><span class="n">source</span><span class="p">(),</span> <span class="s1">&#39;INPUT_2&#39;</span> <span class="p">:</span> <span class="n">csv</span><span class="o">.</span><span class="n">source</span><span class="p">(),</span> <span class="s1">&#39;METHOD&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;OUTPUT&#39;</span> <span class="p">:</span> <span class="s1">&#39;TEMPORARY_OUTPUT&#39;</span><span class="p">,</span> <span class="s1">&#39;PREFIX&#39;</span> <span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="p">}</span>
+                <span class="n">processing</span><span class="o">.</span><span class="n">runAndLoadResults</span><span class="p">(</span><span class="s1">&#39;qgis:joinattributestable&#39;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="funding">
+<h2>Funding<a class="headerlink" href="#funding" title="Permalink to this heading">¶</a></h2>
+<p>This work is co-financed under Grant Agreement Connecting Europe
+Facility (CEF) Telecom <a class="reference external" href="https://ec.europa.eu/inea/en/connecting-europe-facility/cef-telecom/2018-eu-ia-0095">project 2018-EU-IA-0095</a>
+by the European Union.</p>
+<img alt="_images/CEF_programme_logo_650px.png" src="_images/CEF_programme_logo_650px.png" />
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/icon.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="#">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">QGIS Web Processing Service Client</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#execute-wps-process">Execute WPS process</a></li>
+<li><a class="reference internal" href="#handling-output">Handling output</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#funding">Funding</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="nav-item nav-item-0"><a href="#">QGIS WPS Plugin 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">QGIS Web Processing Service Client</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020-2021, OpenGeoLabs s.r.o..
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    </div>
+  </body>
+</html>
