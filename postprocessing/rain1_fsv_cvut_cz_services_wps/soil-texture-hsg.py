@@ -10,7 +10,7 @@ class wps_postprocessing:
             target_dir = os.path.splitext(response.output['output'].filepath)[0]
             with ZipFile(response.output['output'].filepath, 'r') as zf:
                 zf.extractall(target_dir)
-            for name in inputs["layers"].text().split(','):
+            for name in inputs["layers"].checkedItems():
                 uri = os.path.join(target_dir, name + '.tif')
                 raster = QgsRasterLayer(uri, "{} {}".format(process_identifier, name))
                 raster.loadNamedStyle(os.path.join(target_dir, name + '.qml'))
