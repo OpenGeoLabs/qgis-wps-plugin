@@ -209,7 +209,7 @@ class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
 
             input_item = self.get_input(
                     x.identifier, x.title, x.dataType, x.defaultValue,
-                    x.maxOccurs, x.minOccurs, x.allowedValues
+                    x.minOccurs, x.maxOccurs, x.allowedValues
             )
 
             self.verticalLayoutInputs.addLayout(input_item)
