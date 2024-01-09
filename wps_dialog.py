@@ -290,6 +290,7 @@ class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
             if response.data.identifier is not None:
                 self.setInputItems(response.data)
                 self.setOutputItems(response.data)
+                self.setWindowTitle(self.process_identifier + self.tr(" WPS Process"))
                 self.appendLogMessage(self.tr("Process {} loaded".format(self.process_identifier)))
             else:
                 self.appendLogMessage(self.tr("Error loading process {}".format(self.process_identifier)))
