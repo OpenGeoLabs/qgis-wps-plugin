@@ -216,7 +216,13 @@ class WPSWidgetDockWidget(QtWidgets.QDockWidget, FORM_CLASS):
         self.setCursor(Qt.ArrowCursor)
 
     def showProcessesDescription(self, index):
-        self.textEditProcessDescription.setText("[" + self.processes[index].identifier + "]: " + self.processes[index].abstract)
+        desc = "[" + self.processes[index].identifier + "]: "
+        if self.processes[index].title:
+            desc += self.processes[index].title
+        if self.processes[index].abstract:
+            desc += "\n\n" + self.processes[index].abstract
+
+        self.textEditProcessDescription.setText(desc)
 
     def processSelected(self, id):
         current_index = int(id.split('|')[1])
