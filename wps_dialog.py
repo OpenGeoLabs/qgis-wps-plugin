@@ -287,7 +287,7 @@ class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
 
     def onLoadProcessResponse(self, response):
         if response.status == 200:
-            if response.data.abstract is not None:
+            if response.data.identifier is not None:
                 self.setInputItems(response.data)
                 self.setOutputItems(response.data)
                 self.appendLogMessage(self.tr("Process {} loaded".format(self.process_identifier)))
