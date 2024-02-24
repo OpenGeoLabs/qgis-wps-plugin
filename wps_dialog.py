@@ -94,7 +94,7 @@ class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
                 field_cmb_box = widget
             if isinstance(widget, QgsMapLayerComboBox):
                 layer = widget.currentLayer()
-            if layer is not None:
+            if layer is not None and layer.type() == QgsMapLayer.VectorLayer:
                 layer.selectionChanged.connect(self.onLayerSelection)
         if layer is not None and field_cmb_box is not None:
             field_cmb_box.setLayer(layer)
