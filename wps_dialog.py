@@ -121,9 +121,10 @@ class WpsDialog(QtWidgets.QDialog, FORM_CLASS):
             if isinstance(widget, QgsMapLayerComboBox):
                 if param == identifier:
                     layer = widget.currentLayer()
-                    selected = layer is not None and layer.selectedFeatureCount() > 0
+                    selected = layer is not None and layer.type() == QgsMapLayer.VectorLayer and \
+                        layer.selectedFeatureCount() > 0
                     input_item.setChecked(selected)
-                    input_item.setEnabled(selected)
+                    # input_item.setEnabled(layer is not None and layer.type() == QgsMapLayer.VectorLayer)
                     break
         self.only_selected[str(identifier)] = input_item
         self.input_items_all.append(input_item)
