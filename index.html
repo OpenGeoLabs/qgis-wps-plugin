@@ -1,6 +1,5 @@
 
-
-<!doctype html>
+<!DOCTYPE html>
 
 <html lang="en" data-content_root="./">
   <head>
@@ -8,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>QGIS Web Processing Service Client &#8212; QGIS WPS Plugin 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=532c1bf3" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=5283bb3d" />
     
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="search" title="Search" href="search.html" />
@@ -21,7 +20,7 @@
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="nav-item nav-item-0"><a href="#">QGIS WPS Plugin 1.0 documentation</a> &#187;</li>
@@ -118,16 +117,16 @@ named according to URL of the service.</p>
 <p>The script is then named according to the identifier of the process.</p>
 <p>Following script loads result in a form of CSV and joins it with input
 layer.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">qgis.utils</span> <span class="kn">import</span> <span class="n">iface</span>
-<span class="kn">from</span> <span class="nn">qgis.core</span> <span class="kn">import</span> <span class="n">QgsVectorLayer</span><span class="p">,</span> <span class="n">QgsProject</span>
-<span class="kn">from</span> <span class="nn">qgis.gui</span> <span class="kn">import</span> <span class="n">QgsMapLayerComboBox</span><span class="p">,</span> <span class="n">QgsFieldComboBox</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qgis.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">iface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qgis.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">QgsVectorLayer</span><span class="p">,</span> <span class="n">QgsProject</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qgis.gui</span><span class="w"> </span><span class="kn">import</span> <span class="n">QgsMapLayerComboBox</span><span class="p">,</span> <span class="n">QgsFieldComboBox</span>
 
-<span class="kn">import</span> <span class="nn">processing</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">processing</span>
 
-<span class="k">class</span> <span class="nc">wps_postprocessing</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">postprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">wps_postprocessing</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">postprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
         <span class="n">process_identifier</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">csv_uri</span> <span class="o">=</span> <span class="s1">&#39;file:///&#39;</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="n">output</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">filepath</span> <span class="o">+</span> <span class="s1">&#39;?delimiter=,&#39;</span>
@@ -169,10 +168,10 @@ by the European Union.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="#">
-              <img class="logo" src="_static/icon.png" alt="Logo"/>
+              <img class="logo" src="_static/icon.png" alt="Logo of QGIS WPS Plugin"/>
             </a></p>
   <div>
     <h3><a href="#">Table of Contents</a></h3>
@@ -190,7 +189,7 @@ by the European Union.</p>
 </ul>
 
   </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
@@ -198,13 +197,13 @@ by the European Union.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="nav-item nav-item-0"><a href="#">QGIS WPS Plugin 1.0 documentation</a> &#187;</li>
@@ -213,7 +212,7 @@ by the European Union.</p>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2020-2021, OpenGeoLabs s.r.o..
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
   </body>
 </html>
